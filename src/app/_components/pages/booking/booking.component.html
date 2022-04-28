@@ -1,5 +1,5 @@
 <ngx-loading-bar [includeSpinner]="false" height="5px" color="#fff"></ngx-loading-bar>
-<div class="d-flex container justify-content-between mt-5"><h3>Bookings</h3><button class="btn btn-dark" (click)="location.back()">Back</button></div>
+<div class="d-flex container justify-content-between mt-5"><h3>Your Bookings</h3><button class="btn btn-dark" (click)="location.back()">Back</button></div>
 <div *ngIf="bookings && bookings.length>0;else NoBookings" class="col-6 mx-auto mt-5">
      <div  *ngFor="let booking of bookings" [@fadeInOut] class="p-3 shadow bg-light mb-1">
          <div class="d-flex justify-content-between "><h4>{{booking.hotel.name |titlecase}}</h4><span><strong>Address</strong> : {{booking.hotel?.address|titlecase}}</span></div>
