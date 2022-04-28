@@ -1,0 +1,109 @@
+<ngx-loading-bar [includeSpinner]="false" height="5px" color="#fff" ref="router"></ngx-loading-bar>
+
+<div class="col-10 mx-auto mt-5 p-5 bg-light">
+    <h3 class="my-5" > Register Hotel</h3>
+    <p *ngIf="message" class="text-capitalize text-danger">{{message}}</p>
+    <form [formGroup]="hotelForm"  (ngSubmit)="handleCreateHotel()">
+        <div class="row mb-3">
+          
+          <div class="input-group mb-3">
+            <label for="hotel-name" class="col-sm-2 col-form-label">Hotel Name <sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control" formControlName="name" id="hotel-name" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2" style="cursor: pointer;" (click)="isEmojiPickerVisible = !isEmojiPickerVisible;">😀</span>
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="position-relative w-100" style="z-index: 9;">
+              <emoji-mart class="emoji-mart" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)" title="Choose your emoji" [style]="{ position: 'absolute', top:'0', right:'0',width:'84%'}"></emoji-mart>
+            </div>
+          </div>
+          <div class="col-10 ">
+            <small class="text-danger" *ngIf="formControl?.['name']?.touched && formControl?.['name']?.errors?.['required']">Hotel Name is Required</small>
+            <small class="text-danger" *ngIf="formControl?.['name']?.touched && formControl?.['name']?.errors?.['minlength']">Hotel Name minimum length is 3</small>
+          </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label for="address" class="col-sm-2 col-form-label">Hotel Address <sup class="text-danger">*</sup></label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="address" id="address">
+              <small class="text-danger" *ngIf="formControl?.['address']?.touched && formControl?.['address']?.errors?.['required']">Hotel Address is Required</small>
+            
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="contact" class="col-sm-2 col-form-label">Hotel Contact <sup class="text-danger">*</sup></label>
+            <div class="col-sm-10">
+              <input type="tel" class="form-control" formControlName="contact" id="contact">
+              <small class="text-danger" *ngIf="formControl?.['contact']?.touched && formControl?.['contact']?.errors?.['required']">Hotel Contact is Required</small>
+            
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="pincodeID" class="col-sm-2 col-form-label">Pincode <sup class="text-danger">*</sup></label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" formControlName="pincode" id="pincodeID">
+              <small class="text-danger" *ngIf="formControl?.['pincode']?.touched && formControl?.['pincode']?.errors?.['required']">Pincode is Required</small>
+             <small class="text-danger" *ngIf="formControl?.['pincode']?.touched && formControl?.['pincode']?.errors?.['minlength']">Pincode minimum length is 3</small>
+            </div>
+          </div>
+        <div class="row mb-3">
+          <label class="col-form-label col-sm-2 pt-0">Hotel Food Type <sup class="text-danger">*</sup></label>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="type" name="type" value="Veg" id="veg" >
+              <label class="form-check-label" for="veg">
+                Veg
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" formControlName="type" name="type" value="Non-Veg" id="non-veg">
+              <label class="form-check-label" for="non-veg">
+                Non-Veg
+              </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" formControlName="type" type="radio" name="type" id="both" value="Veg & Non-Veg">
+                <label class="form-check-label" for="both">
+                   Veg & Non-Veg
+                </label>
+              </div>
+          </div>
+        </div>
+        <div class="row mb-2">
+            <label class="col-form-label col-sm-2 pt-0">Images <sup class="text-danger">*</sup></label>
+            <div class="col-sm-10 ">
+                <label class="btn btn-primary" [title]="selectedFiles.length>=5?'Limit full select images':''">
+                    Select Images
+                    <input type="file" [disabled]="selectedFiles.length>=5"  class="d-none" (change)="selectFiles($event)" id="img" multiple accept="image/*">
+                </label>
+                <div class="mt-2 d-flex justify-content-around">
+                    <div class="border m-1 position-relative" style="height: 150px;width: 150px;">
+                        <i *ngIf="selectedFiles[0]" class="bi bi-trash3-fill position-absolute bg-light end-0 m-2" (click)="handleDeleteFile(0)"></i>
+                        <img *ngIf="selectedFiles[0]" [src]="selectedFiles[0]" style="height: 150px;width: 150px;" />
+                    </div>
+                    <div class="border position-relative" style="height: 150px;width: 150px;">
+                      <i *ngIf="selectedFiles[1]" class="bi bi-trash3-fill position-absolute bg-light end-0 m-2" (click)="handleDeleteFile(1)"></i>
+                        <img *ngIf="selectedFiles[1]" [src]="selectedFiles[1]" style="height: 150px;width: 150px;"  />
+                    </div>
+                    <div class="border position-relative" style="height: 150px;width: 150px;">
+                      <i *ngIf="selectedFiles[2]" class="bi bi-trash3-fill position-absolute bg-light end-0 m-2" (click)="handleDeleteFile(2)"></i>
+                        <img *ngIf="selectedFiles[2]" [src]="selectedFiles[2]" style="height: 150px;width: 150px;" />
+                    </div>
+                    <div class="border position-relative" style="height: 150px;width: 150px;">
+                      <i *ngIf="selectedFiles[3]" class="bi bi-trash3-fill position-absolute bg-light end-0 m-2" (click)="handleDeleteFile(3)"></i>
+                        <img *ngIf="selectedFiles[3]" [src]="selectedFiles[3]" style="height: 150px;width: 150px;" />
+                    </div>
+                    <div class="border position-relative" style="height: 150px;width: 150px;">
+                      
+                      <i *ngIf="selectedFiles[4]" class="bi bi-trash3-fill position-absolute bg-light end-0 m-2" (click)="handleDeleteFile(3)"></i>
+                        <img *ngIf="selectedFiles[4]" [src]="selectedFiles[4]" style="height: 150px;width: 150px;" />
+                    </div>
+                </div>
+              </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-danger mx-2">Reset</button>
+      </form>
+</div>
+
+

@@ -1,0 +1,48 @@
+<ngx-loading-bar [includeSpinner]="false" height="5px" color="#fff" ref="router"></ngx-loading-bar>
+<div class="container">
+    <div class="col-6 my-5">
+        <h2 class="">Settings</h2>
+        <div class="mt-4 p-5">
+            <h4>Your Hotels</h4>
+            <div *ngIf="hotels && hotels.length>0;else NoAnyHotel" class="mt-3">
+                <div *ngFor="let hotel of hotels">
+                    <div class="border p-2 bg-light" [routerLink]="['/settings/hotel/'+hotel?._id]" style="cursor: pointer;">
+                        <div class="d-flex justify-content-between"><h4>{{hotel?.name|titlecase}}</h4><div><button class="btn btn-outline-danger" (click)="deleteHotel(hotel?._id);$event.stopPropagation()" style="z-index: 99;">Delete</button></div></div>
+                        <p>{{hotel?.address|titlecase}}</p>
+                        <div class="d-flex justify-content-between"><p>{{hotel?.contact}}</p><span class="px-2 my-0 mx-2 py-0 rounded-circle" [class]="hotel?.isOpen?'bg-success':'bg-danger'" style="width: 20px;height: 20px" title="Open"></span></div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #NoAnyHotel>
+
+                <h3>No Any Hotel </h3>
+            </ng-template>
+            
+        </div>
+        <div class="mt-1 px-5">
+            <h4>Your Hotel Bookings</h4>
+            <div *ngIf="bookings && bookings.length>0;else NoAnyHotelBooking" class="mt-3">
+                <div *ngFor="let booking of bookings">
+                    <div class="border p-2 bg-light" style="cursor: pointer;">
+                        <div class="d-flex justify-content-between"><h4>{{booking.user?.name|titlecase}}</h4><span><strong>No. People : </strong>{{booking?.numberOfPeople}}</span></div>
+                        <p>{{booking.user?.address|titlecase}}</p>
+                        <div class="d-flex justify-content-between"><p>{{booking.user?.email}}</p><span class="px-2 my-0 mx-2 py-0 rounded-circle" [class]="booking.status=='complete'?'bg-success':'bg-danger'" style="width: 20px;height: 20px" [title]="booking.status"></span></div>
+                        <label>Status </label>
+                        <div class="form-check form-switch">
+                            
+                            <input class="form-check-input"  type="checkbox"  name="versionControl" [checked]="booking.status=='complete'" (change)="changeStatus($event,booking._id);">
+                            <label *ngIf="booking.status=='complete'">complete</label>
+                            <label *ngIf="booking.status=='pending'">pending</label>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #NoAnyHotelBooking>
+
+                <h3>No Any Hotel Booking </h3>
+            </ng-template>
+            
+        </div>
+    </div>
+</div>
+

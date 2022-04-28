@@ -1,0 +1,114 @@
+
+<div class="col-10 mx-auto mt-5 p-5 bg-light">
+    <div class="d-flex justify-content-between mb-4 mt-3">
+        <h3>Profile</h3>
+        <a class="btn btn-secondary" routerLink="/create-hotel">Register Hotel</a>
+    </div>
+
+    <div class="px-3 mt-2 border shadow rounded">
+        <div class=" my-4 d-flex justify-content-between align-items-start">
+            <div class="position-relative" >
+              <img [src]="user?.avatar?imgUrl+user.avatar:'../../../../../../assets/avatar.png'" style="height: 150px;width: 150px;border-radius: 50%;" class="shadow" (click)="changeState()" 
+              [@balloonEffect]="currentState"/>
+              <label data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="bi bi-check2-square position-absolute bottom-0 end-0" title="Upload Profile"   >
+              </i>
+              <!-- <input type="file" id="profile" style="display: none;" (change)="changeProfile($event)" /> -->
+            </label>
+            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container mt-5 text-center">
+                      <div class="col-md-12">
+                        <label for="profile">
+                          <img [src]="cropImgPreview?cropImgPreview:imgUrl+user?.avatar" style="height: 150px;width: 150px;border-radius: 50%;" class="shadow"/>
+                          <div class="mt-2">Upload <i class="bi bi-cloud-arrow-up"></i></div>
+                          <input type="file" id="profile" style="display: none;" (change)="onFileChange($event)" />
+                        </label>
+                      </div>
+                      <div class="col-md-8 mx-auto">
+                        <image-cropper 
+                          [imageChangedEvent]="imgChangeEvt" 
+                          [maintainAspectRatio]="true" 
+                          [aspectRatio]="4 / 4"
+                          [resizeToWidth]="256" 
+                          format="png" 
+                          [imageFile]=""
+                          (imageCropped)="cropImg($event)" 
+                          (imageLoaded)="imgLoad($event)"
+                          (cropperReady)="initCropper()" 
+                          (loadImageFailed)="imgFailed()">
+                        </image-cropper>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="changeProfile()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" (click)="editFormSet(user)">Edit Profile</button>
+        </div>
+       <div class="mt-5" style="line-height: 60px;">
+        <h4>Name : {{user?.name|titlecase}}</h4>
+        <p class="">Email :   {{user?.email}}</p>
+        <p class="">Address :   {{user?.address}}</p>
+       </div>
+       
+       <agm-map [latitude]="lat" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+      
+        
+    </div>
+   
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form [formGroup]="editForm" (ngSubmit)="handleEdit()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" >Edit Profile <span class="text-success" *ngIf="message">{{message}}</span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          
+        </div>
+        <div class="modal-body" style="padding-top: 0px !important;">
+          
+          <ngx-loading-bar [includeSpinner]="false" height="5px" color="#00f" [fixed]="false"></ngx-loading-bar>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Name</label>
+              <input type="text" formControlName="name" class="form-control" [value]="user?.name"  
+              placeholder="Enter Name" id="recipient-name">
+              <small class="text-danger" *ngIf="formControl?.['name']?.touched && formControl?.['name']?.errors?.['required']">Name is Required</small>
+            <small class="text-danger" *ngIf="formControl?.['name']?.touched && formControl?.['name']?.errors?.['minlength']">Name minimum length is 3</small>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Email</label>
+                <input type="text" formControlName="email" class="form-control" [value]="user?.email" placeholder="Enter Email" id="recipient-name">
+                <small class="text-danger" *ngIf="formControl?.['email']?.touched && formControl?.['email']?.errors?.['required']">Email is Required</small>
+                <small class="text-danger" *ngIf="formControl?.['email']?.touched && formControl?.['email']?.errors?.['pattern']">Email is Invalid</small>
+              </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Address</label>
+                <input type="text" formControlName="address" placeholder="Enter Address"  class="form-control" [value]="user?.address" id="recipient-name">
+                <small class="text-danger" *ngIf="formControl?.['address']?.touched && formControl?.['address']?.errors?.['required']">Address is Required</small>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" #editSubmit type="submit" class="btn btn-primary" 
+          >Save</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>

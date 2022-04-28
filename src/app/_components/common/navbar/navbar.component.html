@@ -1,0 +1,46 @@
+
+<nav *ngIf="(isLoggedIn | async)"  class="navbar navbar-expand-lg position-sticky top-0 end-0 navbar-dark bg-secondary" style="z-index: 999;">
+    <div  class="container-fluid">
+      <a class="navbar-brand shadow px-2" routerLink="/dashboard">Management@</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink="/dashboard" routerLinkActive="active">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
+          </li>
+          <li class="nav-item d-flex position-relative me-2">
+            <a class="nav-link" routerLink="/bookings" routerLinkActive="active">Bookings</a>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="height: 20px;
+            margin-top: 10px;">{{bookingService.totalBookings|async}}</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/settings" routerLinkActive="active">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contacts</a>
+          </li>
+          
+        </ul>
+        <ul class="navbar-nav w-75 d-flex justify-content-end">
+            <li class="nav-item dropdown">
+                
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <small class="me-3 text-white">{{user?.name|titlecase}}</small>
+                    <img [src]="user?.avatar?imgUrl+user?.avatar:'../../../../../../assets/avatar.png'" class="shadow rounded-circle" alt="profile Image" style="width: 40px;height: 40px;" />
+                </a>
+                
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Profile</a></li>
+                  <li><a class="dropdown-item" routerLink="/settings" routerLinkActive="active">Settings</a></li>
+                  <li *ngIf="(isLoggedIn | async)"><a class="dropdown-item" (click)="handleLogout()">Logout</a></li>
+                </ul>
+              </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

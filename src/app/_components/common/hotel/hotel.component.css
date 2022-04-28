@@ -1,0 +1,6 @@
+
+
+#hotel_img:hover{
+    padding: 5px !important;
+    transform:rotateX(45);
+}

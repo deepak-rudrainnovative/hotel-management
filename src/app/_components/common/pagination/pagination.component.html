@@ -1,0 +1,13 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+      <li class="page-item">
+        <button class="page-link text-dark" [disabled]="currentPage===1" (click)="handleChange(currentPage-1)">Previous</button>
+      </li>
+      <li class="page-item" *ngFor="let page of pages"><span class="page-link"
+        [style.color]="currentPage===page?'green':'black'"
+        (click)="handleChange(page)">{{page}}</span></li>
+      <li class="page-item">
+        <button class="page-link text-dark" [disabled]="currentPage===pages[pages.length-1]" (click)="handleChange(currentPage+1)">Next</button>
+      </li>
+    </ul>
+  </nav>

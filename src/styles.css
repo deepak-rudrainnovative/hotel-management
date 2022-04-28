@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+@import "~@ng-select/ng-select/themes/default.theme.css";
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+#ResizeContent{
+    color: blue;
+    overflow: auto;
+}
+
+#ResizeContent::after{
+    content: ' hgjhgjhgjhgjhgjhhj';
+    height: 100px;
+    width: 100%;
+    resize:horizontal;
+    cursor: ew-resize;
+}
+
+#ResizeContent::before{
+    resize:vertical;
+    cursor: ns-resize;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+    height: auto;
+}
+
+
+::-webkit-scrollbar-thumb{
+    margin-top: 60px;
+    width: 10px;
+   background-color: rgb(71, 67, 67);
+   border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px grey; 
+  margin-top: 40px;
+}
+
+
+.angular-editor .angular-editor-toolbar{
+    background-color: white !important;
+}

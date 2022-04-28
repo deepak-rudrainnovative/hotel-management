@@ -1,0 +1,15 @@
+<div class="col-6 mx-auto mt-5">
+    <h3 class="text-center mb-4">Contact Us</h3>
+     <form [formGroup]="contactForm" (ngSubmit)="handleContact()">
+        <div class="mb-3">
+            <label for="contact-title" class="form-label">Title</label>
+            <input type="email" formControlName="title" class="form-control" id="contact-title">
+          </div>
+          <div class="mb-3">
+            <label for="contact-description" class="form-label">Description</label>
+            <angular-editor formControlName="description" [config]="editorConfig" style="background-color: azure;" placeholder=" "></angular-editor>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="reset" class="btn btn-danger mx-1">Reset</button>
+     </form>
+</div>

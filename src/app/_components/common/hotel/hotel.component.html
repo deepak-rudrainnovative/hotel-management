@@ -1,0 +1,91 @@
+<ngx-loading-bar [includeSpinner]="false" height="5px" color="#fff"></ngx-loading-bar>
+
+<div class="col-10 mx-auto mt-5 p-5 bg-light">
+    <div  class="d-flex justify-content-between mb-4 mt-3">
+        <h3>Details</h3>
+        <a class="btn btn-dark" (click)="location.back()">Back</a>
+    </div>
+
+    <div class="px-3 mt-2 py-3 ">
+        <div class="d-flex justify-content-between align-items-start my-4 position-relative">
+            
+            <div (click)="changeState()" 
+  [@balloonEffect]="currentState">
+  <img *ngFor="let image of hotel?.images" [src]="imgUrl+image?imgUrl+image:'../../../../../../assets/avatar.png'" class=" mx-2" style="height: 150px;width: 150px;border-radius: 50%;" id="hotel_img"/>
+</div>
+            <span class="px-2 my-0 mx-2 py-0 rounded-circle" [class]="hotel?.isOpen?'bg-success':'bg-danger'" style="width: 20px;height: 20px; position: absolute;left: 140px;bottom: 0;" title="Open"></span>
+            <button *ngIf="!isBooked" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" (click)="bookingInitailize()">Book Hotel</button>
+            <span *ngIf="isBooked" class="btn btn-success" routerLink="/bookings">Already Booked >></span>
+        </div>
+       <div class="d-flex ">
+        <div class="mt-5" style="line-height: 60px;">
+            <h4>Hotel Name : {{hotel?.name|titlecase}}</h4>
+            <p class="">Hotel Address :   {{hotel?.address}}</p>
+            <p class="">Hotel Contact :   {{hotel?.contact}}</p>
+            <p class="">Hotel Pincode :   {{hotel?.pincode}}</p>
+    
+           </div>
+           <div class="mt-5 py-4 mx-5 px-3" style="line-height: 50px;">
+            <h4></h4>
+            <p class="">Hotel Owner :   {{hotel?.owner?.name}}</p>
+            <p class="">Hotel Owner Email:   {{hotel?.owner?.email}}</p>
+            <p></p>
+           </div>
+       </div>
+       <div class="p-3 position-relative ">
+         <h4 class="mb-4">Ratings : <small>{{rating}} ({{hotel?.ratings.length}})</small></h4>
+         <form [formGroup]="form" (ngSubmit)="giveRating()" class="position-absolute" style="top: 32px;">
+            <ngx-star-rating formControlName="rating"  id="rating" [disabled]="isRated" ></ngx-star-rating>
+            <button type="submit" class="btn btn-sm btn-primary" *ngIf="!isRated">Submit</button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteRating()" *ngIf="isRated">Delete </button>
+         </form>
+         
+       </div>
+
+        
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form [formGroup]="bookingForm" (ngSubmit)="handleBooking()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" >Book Hotel</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <span class=" modal-body text-success" *ngIf="bookingMessage">&nbsp;&nbsp;    {{bookingMessage}}</span>
+        <div *ngIf="bookingMessage" class="text-end mx-3" ><a routerLink="/bookings" data-bs-dismiss="modal" >Go To Booking Page</a></div>
+        <div class="modal-body" [hidden]="bookingMessage">
+          
+            <div class="mb-3">
+              <label for="comming_date" class="col-form-label">Start Date</label>
+              <input type="date" formControlName="commingDate" class="form-control"   
+               id="comming_date">
+              <small class="text-danger" *ngIf="formControl?.['commingDate']?.touched && formControl?.['commingDate']?.errors?.['required']">Start Date is Required</small>
+              <small class="text-danger" *ngIf="formControl?.['commingDate']?.touched && formControl?.['commingDate']?.errors?.['isInvalidCommingDate']">Start Date is Invalid</small>
+            </div>
+            <div class="mb-3">
+                <label for="leave_date" class="col-form-label">Leave Date</label>
+                <input type="date" formControlName="leaveDate" class="form-control" id="leave_date">
+                <small class="text-danger" *ngIf="formControl?.['leaveDate']?.touched && formControl?.['leaveDate']?.errors?.['required']">Leave Date is Required</small>
+                <small class="text-danger" *ngIf="formControl?.['leaveDate']?.touched && formControl?.['leaveDate']?.errors?.['isInvalidLeaveDate']">Leave Date is Invalid</small>
+                
+              </div>
+            <div class="mb-3">
+                <label for="numberOfPerson" class="col-form-label">Number Of People</label>
+                <input type="number" formControlName="numberOfPeople" placeholder="Enter No of People"  class="form-control"  id="numberOfPerson" style="appearance: none;-webkit-appearance: none;">
+                <small class="text-danger" *ngIf="formControl?.['numberOfPeople']?.touched && formControl?.['numberOfPeople']?.errors?.['required']">No. People is Required</small>
+                <small class="text-danger" *ngIf="formControl?.['numberOfPeople']?.touched && formControl?.['numberOfPeople']?.errors?.['min']">Minimum One Person</small>
+                <small class="text-danger" *ngIf="formControl?.['numberOfPeople']?.touched && formControl?.['numberOfPeople']?.errors?.['max']">Maximum 10 Person</small>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button [hidden]="bookingMessage" type="button" #editSubmit type="submit" class="btn btn-primary" 
+          >Book</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
