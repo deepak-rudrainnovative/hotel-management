@@ -54,7 +54,7 @@ import { animate, keyframes, query, stagger, state, style, transition, trigger }
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit,OnDestroy {
-  hotels!:any; //we ! indicate that the variable can be : undefined
+  hotels:any=[]; //we ! indicate that the variable can be : undefined
   //this is a shortcut to write : Observable<Photo[]> | undefined
   imgUrl:string=environment.imgUrl;
   searchText:string='';
@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit,OnDestroy {
     this.authService.getUser();
     this.hotelSub=this.hotelService.getAllHotels().subscribe(resp=>{
       this.hotels=resp.body;
-      this.totalPage=Math.ceil(this.hotels.length/this.pageSize);
+      this.totalPage=Math.ceil(this.hotels?.length/this.pageSize);
       for(let i=1;i<this.totalPage+1;i++){
            this.pages.push(i);
          }
@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit,OnDestroy {
   setPageSize(page:string){
     this.pages=[]
     this.pageSize=Number(page);
-    this.totalPage=Math.ceil(this.hotels.length/this.pageSize);
+    this.totalPage=Math.ceil(this.hotels?.length/this.pageSize);
     for(let i=1;i<this.totalPage+1;i++){
       this.pages.push(i)
     }

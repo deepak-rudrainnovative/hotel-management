@@ -38,6 +38,6 @@ describe('HomeComponent', () => {
   xit('should return hotels',()=>{
     spyOn(service,'getAllHotels').and.returnValue(hotels);
     fixture.detectChanges();
-    expect(component.hotels.length).toBeGreaterThan(0)
+    expect(component?.hotels.length).toBeGreaterThan(0)
   })
 });

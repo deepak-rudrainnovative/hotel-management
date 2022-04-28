@@ -1,5 +1,6 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -12,7 +13,7 @@ describe('ProfileComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ProfileComponent ],
-      imports:[HttpClientModule],
+      imports:[HttpClientModule,BrowserAnimationsModule],
       providers:[HttpClient,UserService,LoadingBarService]
     })
     .compileComponents();

@@ -35,7 +35,8 @@
        <div class="p-3 position-relative ">
          <h4 class="mb-4">Ratings : <small>{{rating}} ({{hotel?.ratings.length}})</small></h4>
          <form [formGroup]="form" (ngSubmit)="giveRating()" class="position-absolute" style="top: 32px;">
-            <ngx-star-rating formControlName="rating"  id="rating" [disabled]="isRated" ></ngx-star-rating>
+
+            <ngx-star-rating formControlName="rating"  id="rating" [disabled]="isRated" ngDefaultControl ></ngx-star-rating>
             <button type="submit" class="btn btn-sm btn-primary" *ngIf="!isRated">Submit</button>
             <button type="button" class="btn btn-sm btn-danger" (click)="deleteRating()" *ngIf="isRated">Delete </button>
          </form>
